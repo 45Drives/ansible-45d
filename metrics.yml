@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - block:
+        - import_role:
+            name: container-engine
+        - import_role:
+            name: node-exporter
+
+- hosts: metrics
+  become: true
+  tasks:
+    - block:
+        - import_role:
+            name: prometheus
+        - import_role:
+            name: grafana

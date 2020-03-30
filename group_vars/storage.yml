@@ -1,0 +1,4 @@
+---
+chassis_size: '15'
+hybrid_chassis: 'false'
+zfs: 'true'

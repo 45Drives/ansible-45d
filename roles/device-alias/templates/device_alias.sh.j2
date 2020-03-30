@@ -1,0 +1,7 @@
+{% if zfs == "true" %}
+export ALIAS_CONFIG_PATH=/etc/zfs
+export ALIAS_DEVICE_PATH=/dev/disk/by-vdev
+{% else %}
+export ALIAS_CONFIG_PATH=/etc
+export ALIAS_DEVICE_PATH=/dev
+{% endif %}
