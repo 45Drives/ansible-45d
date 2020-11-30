@@ -1,0 +1,6 @@
+---
+## INSTALL PACKAGES
+- include: install_redhat_zfs.yml
+  when: zfs | bool
+  tags:
+  - packages

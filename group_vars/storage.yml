@@ -1,4 +1,20 @@
 ---
+# TOOLS SOURCE
+tools_git_repo: 'https://github.com/45Drives/tools.git'
+tools_install_dir: '/opt/tools'
+
+# CHASSIS
+# chassis_size = Number of drive bays
+# If left blank (''). device-alias role will attempt to set the varible by reading the model number. 
+# Valid options are 15,30,45,60,32
 chassis_size: '15'
+# When 'hybrid_chassis=true' device-alias will map hyrbid server.
 hybrid_chassis: 'false'
+
+upgrade_packages: true
 zfs: 'true'
+raid_level: 'mirror'
+device_class: 'hdd'
+pool_name: 'tank'
+
+

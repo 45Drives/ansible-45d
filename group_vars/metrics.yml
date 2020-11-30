@@ -1,5 +1,5 @@
 # PROMETHEUS
-prometheus_port: 9090
+prometheus_port: 9091
 # ALERTMANAGER
 alertmanager_port: 9093
 alertmanager_smtp_host: localhost

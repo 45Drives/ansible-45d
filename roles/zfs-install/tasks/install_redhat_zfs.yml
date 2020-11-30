@@ -1,0 +1,35 @@
+---
+- name: install yum plugin priorities
+  package:
+    name: yum-plugin-priorities
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: install zfs 
+  block:
+    - name: Install ZFS repo
+      package:
+        name: http://download.zfsonlinux.org/epel/zfs-release.el{{ ansible_distribution_version.split(".")[0] }}_{{ ansible_distribution_version.split(".")[1] }}.noarch.rpm
+        state: "{{ (upgrade_packages|bool) | ternary('latest','present') }}"
+      register: result
+      until: result is succeeded
+
+    - name: Install ZFS Packages
+      package:
+        name: zfs
+        state: "{{ (upgrade_packages|bool) | ternary('latest','present') }}"
+      register: result
+      until: result is succeeded
+      
+    - name: Load ZFS kernel Module
+      modprobe:
+        name: zfs
+        state: present
+
+    - name: Load ZFS kernl module on boot
+      copy:
+        dest: "/etc/modules-load.d/zfs.conf"
+        content: |
+          zfs
+ 

@@ -5,12 +5,13 @@
     shell: '/bin/false'
     createhome: false
     system: true
-
+    
 - name: create /etc/grafana and /var/lib/grafana
   file:
     path: "{{ item }}"
     state: directory
     owner: "{{ grafana_uid }}"
+    group: "{{ grafana_uid }}"
     recurse: true
   with_items:
     - /etc/grafana

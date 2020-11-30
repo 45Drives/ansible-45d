@@ -1,4 +1,4 @@
-container_binary: docker
+container_binary: podman
 grafana_admin_user: admin
 grafana_admin_password: admin
 grafana_port: 3000

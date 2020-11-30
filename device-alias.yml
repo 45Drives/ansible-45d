@@ -1,5 +1,0 @@
----
-- hosts: storage
-  tasks:
-    - import_role:
-        name: device-alias

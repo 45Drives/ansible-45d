@@ -1,0 +1,15 @@
+---
+- name: create zpool with all available {{ device_class | default('hdd') }}
+  command: "{{ tools_install_dir }}/zcreate -b -l {{ raid_level | default('raidz2') }} -C {{ device_class | default('hdd') }} -n {{ pool_name | default('zpool')}} -m /mnt/{{ pool_name | default('zpool')}}"
+  register: zcreate_output
+  failed_when: '"invalid" in zcreate_output.stderr or "in use" in zcreate_output.stderr'
+
+- name: get zpool status
+  command: "zpool status"
+  changed_when: false
+  register: zpool_status
+
+- name: show zpool status
+  debug:
+    msg: "{{ zpool_status.stdout_lines }}"
+  when: not zpool_status.failed

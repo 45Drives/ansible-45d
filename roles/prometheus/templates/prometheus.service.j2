@@ -11,7 +11,7 @@ After=network.target
 [Service]
 EnvironmentFile=-/etc/environment
 ExecStartPre=-/usr/bin/{{ container_binary }} rm -f prometheus
-ExecStart=/usr/bin/{{ container_binary }} run --name=prometheus \
+ExecStart=/usr/bin/{{ container_binary }} run --rm --name=prometheus \
   -v "{{ prometheus_conf_dir }}:/etc/prometheus:Z" \
   -v "{{ prometheus_data_dir }}:/prometheus:Z" \
   --net=host \
@@ -23,8 +23,10 @@ ExecStart=/usr/bin/{{ container_binary }} run --name=prometheus \
   {{ prometheus_container_image }} \
   --config.file=/etc/prometheus/prometheus.yml \
   --storage.tsdb.path=/prometheus \
-  --web.external-url=http://{{ inventory_hostname }}:9090/
+  --web.external-url=http://{{ ansible_fqdn }}:{{ prometheus_port }}/ \
+  --web.listen-address={{ inventory_hostname }}:{{ prometheus_port }}
 ExecStop=/usr/bin/{{ container_binary }} stop prometheus
+KillMode=none
 Restart=always
 RestartSec=10s
 TimeoutStartSec=120

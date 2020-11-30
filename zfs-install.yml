@@ -1,0 +1,7 @@
+---
+- hosts: storage
+  become: true
+  tasks:
+    - block:
+        - import_role:
+            name: zfs-install

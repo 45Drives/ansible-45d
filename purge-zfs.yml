@@ -1,0 +1,51 @@
+---
+# This playbook purges zfs
+# It removes: packages, configuration files and ALL THE DATA
+#
+# Use it like this:
+# ansible-playbook purge-zfs.yml
+#     Prompts for confirmation to purge, defaults to no and
+#     doesn't purge the cluster. yes purges the cluster.
+#
+# ansible-playbook -e ireallymeanit=yes|no purge-samba.yml
+#     Overrides the prompt using -e option. Can be used in
+#     automation scripts to avoid interactive prompt.
+
+- name: confirm whether user really meant to purge zfs
+  hosts: localhost
+  gather_facts: false
+
+  vars_prompt:
+    - name: ireallymeanit
+      prompt: Are you sure you want to purge zfs?
+      default: 'no'
+      private: no
+
+  tasks:
+  - name: exit playbook, if user did not mean to purge cluster
+    fail:
+      msg: >
+        "Exiting purge-zfs playbook, cluster was NOT purged.
+         To purge zfs, either say 'yes' on the prompt or
+         or use `-e ireallymeanit=yes` on the command line when
+         invoking the playbook"
+    when: ireallymeanit != 'yes'
+
+- name: final cleanup - purge zfs packages and purge config
+  vars:
+    zfs_packages:
+      - zfs-dkms
+      - zfs-release
+      - libzfs2
+
+  hosts:
+    - storage
+
+  gather_facts: true
+  become: true
+  tasks:
+
+  - name: purge zfs packages
+    package:
+      name: "{{ zfs_packages }}"
+      state: absent

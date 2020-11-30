@@ -1,5 +1,5 @@
-container_binary: docker
-prometheus_port: 9090
+container_binary: podman
+prometheus_port: 9091
 prometheus_container_image: prom/prometheus:latest
 prometheus_container_cpu_period: 100000
 prometheus_container_cpu_cores: 2
@@ -8,6 +8,7 @@ prometheus_data_dir: /var/lib/prometheus
 prometheus_conf_dir: /etc/prometheus
 prometheus_user_id: '65534'  # This is the UID used by the prom/prometheus container image
 alertmanager_port: 9093
+alertmanager_cluster_port: 9094
 alertmanager_container_image: prom/alertmanager:latest
 alertmanager_container_cpu_period: 100000
 alertmanager_container_cpu_cores: 2
